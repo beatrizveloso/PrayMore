@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import PrayMore from "../pages/praymore/PrayMore";
-import SaintPage from "../pages/saintpage/Saintpage";
+import SaintPage from "../pages/saintpage/SaintPage";
 import Terco from "../pages/terco/Terco";
 
 const AppRoutes = () => { 
