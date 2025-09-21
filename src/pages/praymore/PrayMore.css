@@ -269,7 +269,6 @@ body {
   top: 50%;
   transform: translateY(-50%);
   background-color: var(--azul);
-  /* background-color: var(--azul); */
   color: var(--branco);
   border: none;
   border-radius: 50%;
