@@ -24,6 +24,7 @@ const PrayMore = () => {
     { id: 6, name: "São Miguel", image: "/images/sao-miguel.png", link: "/santo/sao-miguel" },
     { id: 7, name: "Santa Edwiges", image: "/images/santa-edwiges.png", link: "/santo/santa-edwiges" },
     { id: 8, name: "Santo Antônio", image: "/images/santo-antonio.png", link: "/santo/santo-antonio" },
+    { id: 9, name: "Santo Carlo", image: "/images/santo-carlo.png", link: "/santo/santo-carlo" },
   ];
 
   const prayersData = [
@@ -46,8 +47,10 @@ const PrayMore = () => {
     { id: 1, name: "Novena de Nossa Senhora", image: "/images/novena-aparecida.png", link: "/novena/aparecida" },
     { id: 2, name: "Novena de Santo Expedito", image: "/images/novena-expedito.png", link: "/novena/expedito" },
     { id: 3, name: "Novena do Sagrado Coração", image: "/images/novena-coracao.png", link: "/novena/coracao" },
-    { id: 4, name: "Novena das Graças", image: "/images/novena-gracas.png", link: "/novena/gracas" },
-    { id: 5, name: "Novena de São José", image: "/images/novena-sao-jose.png", link: "/novena/sao-jose" },
+    { id: 4, name: "Novena de São Carlo", image: "/images/novena-sao-carlo.png", link: "/novena/sao-carlo" },
+    { id: 5, name: "Novena das Graças", image: "/images/novena-gracas.png", link: "/novena/gracas" },
+    { id: 6, name: "Novena de Santa Teresinha", image: "/images/novena-santa-teresinha.png", link: "/novena/santa-teresinha" },
+    { id: 7, name: "Novena de São José", image: "/images/novena-sao-jose.png", link: "/novena/sao-jose" },
   ];
 
 const Carousel = ({ title, items }) => {
