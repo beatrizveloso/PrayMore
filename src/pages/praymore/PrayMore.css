@@ -25,6 +25,22 @@ body {
   line-height: 1.6;
 }
 
+header .nav ul li button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: color 0.3s;
+  border-radius: 8px;
+  outline: none;
+}
+
+header .nav ul li button:hover {
+  color: #978053;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -64,6 +80,13 @@ body {
   margin-right: 10px;
   color: var(--dourado);
   font-size: 2rem;
+}
+
+.logo-text {
+  color: #fff !important;
+  text-decoration: none !important; 
+  font-weight: bold;
+  font-size: 1.5rem;
 }
 
 .menu-toggle {
