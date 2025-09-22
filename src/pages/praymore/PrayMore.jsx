@@ -196,7 +196,7 @@ const PrayMore = () => {
           <button className="btn-primary" onClick={() => scrollToSection(prayersRef)}>Explorar Orações</button>
         </div>
       </section>
-
+{/* 
       <section ref={saintsRef}>
         <Carousel title="Santos" items={saintsData} />
       </section>
@@ -208,7 +208,7 @@ const PrayMore = () => {
       </section>
       <section ref={novenasRef}>
         <Carousel title="Novenas" items={novenasData} />
-      </section>
+      </section> */}
 
       <section className="about-section">
         <div className="container">
