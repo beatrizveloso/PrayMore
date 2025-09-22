@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { FaPray, FaCross, FaChurch, FaBook, FaBars, FaTimes } from 'react-icons/fa';
 import './PrayMore.css';
@@ -7,6 +7,12 @@ const PrayMore = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
+  const desatadoraRef = useRef(null);
+  const saintsRef = useRef(null);
+  const prayersRef = useRef(null);
+  const rosariesRef = useRef(null);
+  const novenasRef = useRef(null);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
@@ -14,6 +20,19 @@ const PrayMore = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const scrollToSection = (ref) => {
+    if (ref.current) {
+      ref.current.scrollIntoView({ behavior: 'smooth' });
+      setIsMenuOpen(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    if (desatadoraRef.current) {
+      desatadoraRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   const saintsData = [
     { id: 1, name: "São Jorge", image: "/images/sao-jorge.png", link: "/santo/sao-jorge" },
@@ -53,50 +72,50 @@ const PrayMore = () => {
     { id: 7, name: "Novena de São José", image: "/images/novena-sao-jose.png", link: "/novena/sao-jose" },
   ];
 
-const Carousel = ({ title, items }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const totalItems = items.length;
+  const Carousel = ({ title, items }) => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const totalItems = items.length;
 
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % totalItems);
-  };
+    const nextSlide = () => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % totalItems);
+    };
 
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + totalItems) % totalItems);
-  };
+    const prevSlide = () => {
+      setCurrentIndex((prevIndex) => (prevIndex - 1 + totalItems) % totalItems);
+    };
 
-  const getItemClass = (index) => {
-    const pos = (index - currentIndex + totalItems) % totalItems;
-    switch (pos) {
-      case 0: return 'carousel-item left-2';
-      case 1: return 'carousel-item left-1';
-      case 2: return 'carousel-item center';
-      case 3: return 'carousel-item right-1';
-      case 4: return 'carousel-item right-2';
-      default: return 'carousel-item hidden';
-    }
-  };
+    const getItemClass = (index) => {
+      const pos = (index - currentIndex + totalItems) % totalItems;
+      switch (pos) {
+        case 0: return 'carousel-item left-2';
+        case 1: return 'carousel-item left-1';
+        case 2: return 'carousel-item center';
+        case 3: return 'carousel-item right-1';
+        case 4: return 'carousel-item right-2';
+        default: return 'carousel-item hidden';
+      }
+    };
 
-  return (
-    <div className="carousel-section">
-      <h2>{title}</h2>
-      <div className="carousel">
-        <button className="carousel-btn prev" onClick={prevSlide}>&#10094;</button>
-        <div className="carousel-container">
-          {items.map((item, index) => (
-            <div key={item.id} className={getItemClass(index)}>
-              <Link to={item.link}>
-                <img src={item.image} alt={item.name} />
-                <p>{item.name}</p>
-              </Link>
-            </div>
-          ))}
+    return (
+      <div className="carousel-section">
+        <h2>{title}</h2>
+        <div className="carousel">
+          <button className="carousel-btn prev" onClick={prevSlide}>&#10094;</button>
+          <div className="carousel-container">
+            {items.map((item, index) => (
+              <div key={item.id} className={getItemClass(index)}>
+                <Link to={item.link}>
+                  <img src={item.image} alt={item.name} />
+                  <p>{item.name}</p>
+                </Link>
+              </div>
+            ))}
+          </div>
+          <button className="carousel-btn next" onClick={nextSlide}>&#10095;</button>
         </div>
-        <button className="carousel-btn next" onClick={nextSlide}>&#10095;</button>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
   const FAQ = () => {
     const faqs = [
@@ -126,7 +145,7 @@ const Carousel = ({ title, items }) => {
         <div className="faq-container">
           {faqs.map((faq, index) => (
             <div key={index} className="faq-item">
-              <button 
+              <button
                 className={`faq-question ${activeIndex === index ? 'active' : ''}`}
                 onClick={() => toggleFAQ(index)}
               >
@@ -146,53 +165,65 @@ const Carousel = ({ title, items }) => {
     <div className="pray-more">
       <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
         <div className="container">
-          <div className="logo">
+          <div className="logo" onClick={scrollToTop} style={{ cursor: 'pointer' }}>
             <FaPray className="logo-icon" />
-            <span>PrayMore</span>
+            <span className="logo-text">PrayMore</span>
           </div>
-          
-          <button 
+
+          <button
             className="menu-toggle"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? <FaTimes /> : <FaBars />}
           </button>
-          
+
           <nav className={`nav ${isMenuOpen ? 'active' : ''}`}>
             <ul>
-              <li><Link to="/" onClick={() => setIsMenuOpen(false)}>Home</Link></li>
-              <li><Link to="/oracoes" onClick={() => setIsMenuOpen(false)}>Orações</Link></li>
-              <li><Link to="/tercos" onClick={() => setIsMenuOpen(false)}>Terços</Link></li>
-              <li><Link to="/novenas" onClick={() => setIsMenuOpen(false)}>Novenas</Link></li>
-              <li><Link to="/santos" onClick={() => setIsMenuOpen(false)}>Santos</Link></li>
+              <li><button onClick={() => scrollToSection(saintsRef)}>Santos</button></li>
+              <li><button onClick={() => scrollToSection(prayersRef)}>Orações</button></li>
+              <li><button onClick={() => scrollToSection(rosariesRef)}>Terços</button></li>
+              <li><button onClick={() => scrollToSection(novenasRef)}>Novenas</button></li>
             </ul>
           </nav>
         </div>
       </header>
-
-      <section className="hero">
-       <div className="hero-bg"></div>
+      
+      <section ref={desatadoraRef} className="hero">
+        <div className="hero-bg"></div>
         <div className="hero-content">
           <h1>PrayMore</h1>
           <p>Um lugar para fortalecer sua fé através da oração e devoção</p>
-          <Link to="/oracoes" className="btn-primary">Explorar Orações</Link>
+          <button className="btn-primary" onClick={() => scrollToSection(prayersRef)}>Explorar Orações</button>
         </div>
+      </section>
+
+      <section ref={saintsRef}>
+        <Carousel title="Santos" items={saintsData} />
+      </section>
+      <section ref={prayersRef}>
+        <Carousel title="Orações" items={prayersData} />
+      </section>
+      <section ref={rosariesRef}>
+        <Carousel title="Terços" items={rosariesData} />
+      </section>
+      <section ref={novenasRef}>
+        <Carousel title="Novenas" items={novenasData} />
       </section>
 
       <section className="about-section">
         <div className="container">
           <h2>Sobre o PrayMore</h2>
           <p>
-            O PrayMore nasceu da vontade de reunir em um único lugar todas as orações, terços e novenas 
-            que ajudam os fiéis a se aprofundarem na fé católica. Nosso objetivo é facilitar o acesso 
-            a estas devoções para que você possa exercitar sua fé diariamente, encontrando consolo, 
+            O PrayMore nasceu da vontade de reunir em um único lugar todas as orações, terços e novenas
+            que ajudam os fiéis a se aprofundarem na fé católica. Nosso objetivo é facilitar o acesso
+            a estas devoções para que você possa exercitar sua fé diariamente, encontrando consolo,
             força e orientação espiritual através da riqueza da tradição católica.
           </p>
         </div>
       </section>
 
       <Carousel title="Santos" items={saintsData} />
-      <Carousel title="Orações" items={prayersData} />
+      <Carousel id="oracoes" title="Orações" items={prayersData} />
       <Carousel title="Terços" items={rosariesData} />
       <Carousel title="Novenas" items={novenasData} />
 
@@ -206,7 +237,7 @@ const Carousel = ({ title, items }) => {
               <span>PrayMore</span>
               <p className="verse">"Não andeis ansiosos por coisa alguma; antes, em tudo, sejam conhecidas, diante de Deus, as vossas petições pela oração e pela súplica, com ações de graças." - Filipenses 4:6</p>
             </div>
-            
+
             <div className="footer-links">
               <h3>Links Rápidos</h3>
               <ul>
@@ -217,7 +248,7 @@ const Carousel = ({ title, items }) => {
                 <li><Link to="/santos">Santos</Link></li>
               </ul>
             </div>
-            
+
             <div className="footer-contact">
               <h3>Contato</h3>
               <p>Email: contato@praymore.com</p>
@@ -229,7 +260,7 @@ const Carousel = ({ title, items }) => {
               </div>
             </div>
           </div>
-          
+
           <div className="footer-bottom">
             <p>&copy; 2023 PrayMore. Todos os direitos reservados.</p>
           </div>
@@ -292,7 +323,7 @@ const SaintPage = ({ saint }) => {
           <div className="saint-prayer">
             <h2>Oração de {currentSaint.name}</h2>
             <p>{currentSaint.prayer}</p>
-            
+
             <div className="prayer-steps">
               <h3>Como rezar a novena de {currentSaint.name}</h3>
               <div className="step">
@@ -320,7 +351,7 @@ const SaintPage = ({ saint }) => {
               <span>PrayMore</span>
               <p className="verse">"Não andeis ansiosos por coisa alguma; antes, em tudo, sejam conhecidas, diante de Deus, as vossas petições pela oração e pela súplica, com ações de graças." - Filipenses 4:6</p>
             </div>
-            
+
             <div className="footer-links">
               <h3>Links Rápidos</h3>
               <ul>
@@ -331,11 +362,10 @@ const SaintPage = ({ saint }) => {
                 <li><Link to="/santos">Santos</Link></li>
               </ul>
             </div>
-            
+
             <div className="footer-contact">
               <h3>Contato</h3>
               <p>Email: contato@praymore.com</p>
-              <p>Telefone: (11) 9999-9999</p>
               <div className="social-icons">
                 <a href="#"><FaPray /></a>
                 <a href="#"><FaChurch /></a>
@@ -343,7 +373,7 @@ const SaintPage = ({ saint }) => {
               </div>
             </div>
           </div>
-          
+
           <div className="footer-bottom">
             <p>&copy; 2023 PrayMore. Todos os direitos reservados.</p>
           </div>
